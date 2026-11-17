@@ -11,7 +11,6 @@ import (
 
 type Metrics struct {
 	Hostname       string  `json:"hostname"`
-	CPUUsage       float64 `json:"cpu_usage_percent"`
 	MemoryTotalMB  uint64  `json:"memory_total_mb"`
 	MemoryUsedMB   uint64  `json:"memory_used_mb"`
 	MemoryUsedPct  float64 `json:"memory_used_percent"`
@@ -40,7 +39,6 @@ func (ProcCollector) Collect() (Metrics, error) {
 		DiskTotalMB: diskTotal / 1024 / 1024, DiskUsedMB: diskUsed / 1024 / 1024}
 	if total > 0 { m.MemoryUsedPct = float64(total-available) / float64(total) * 100 }
 	if diskTotal > 0 { m.DiskUsedPct = float64(diskUsed) / float64(diskTotal) * 100 }
-	m.CPUUsage = 0 // CPU sampling is added in a later iteration.
 	return m, nil
 }
 
